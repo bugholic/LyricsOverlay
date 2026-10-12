@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Lyrics Overlay Bridge",
+  "version": "0.1.0",
+  "description": "Sends the lyrics YouTube Music shows, and the playback position, to the Lyrics Overlay app running on this computer.",
+  "host_permissions": ["http://localhost:38917/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://music.youtube.com/*"],
+      "js": ["ytmusic.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

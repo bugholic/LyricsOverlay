@@ -1,0 +1,58 @@
+<Window x:Class="LyricsOverlay.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lyrics Overlay"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        Topmost="True" ShowInTaskbar="False" ShowActivated="False"
+        ResizeMode="NoResize" MinWidth="320" MinHeight="120"
+        FontFamily="Segoe UI">
+    <Window.Resources>
+        <Style x:Key="LyricLine" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Margin" Value="0,2" />
+        </Style>
+        <Style x:Key="EditButton" TargetType="Button">
+            <Setter Property="Padding" Value="10,3" />
+            <Setter Property="Margin" Value="6,0,0,0" />
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="Frame" CornerRadius="14" BorderThickness="2" BorderBrush="Transparent" Background="Transparent">
+        <Grid>
+            <StackPanel x:Name="LinesPanel" VerticalAlignment="Center" Margin="24,30,24,26">
+                <StackPanel.RenderTransform>
+                    <TranslateTransform x:Name="Slide" />
+                </StackPanel.RenderTransform>
+                <StackPanel.Effect>
+                    <!-- Keeps white text readable on light backgrounds. -->
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="12" Opacity="0.95" Color="Black" />
+                </StackPanel.Effect>
+                <TextBlock x:Name="PrevLine" Style="{StaticResource LyricLine}" Opacity="0.4" />
+                <TextBlock x:Name="CurrentLine" Style="{StaticResource LyricLine}" FontWeight="Bold" />
+                <TextBlock x:Name="NextLine" Style="{StaticResource LyricLine}" Opacity="0.6" />
+                <TextBlock x:Name="NextLine2" Style="{StaticResource LyricLine}" Opacity="0.3" />
+            </StackPanel>
+
+            <TextBlock x:Name="StatusText" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                       Margin="12,0,12,6" Foreground="#DDFFFFFF" FontSize="13" FontStyle="Italic"
+                       TextTrimming="CharacterEllipsis">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="6" Color="Black" />
+                </TextBlock.Effect>
+            </TextBlock>
+
+            <DockPanel x:Name="EditBar" VerticalAlignment="Top" Margin="12,8,12,0" Visibility="Collapsed">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="A−" Style="{StaticResource EditButton}" Click="Smaller_Click" ToolTip="Smaller text" />
+                    <Button Content="A+" Style="{StaticResource EditButton}" Click="Bigger_Click" ToolTip="Bigger text" />
+                    <Button Content="Done" Style="{StaticResource EditButton}" Click="Done_Click" FontWeight="SemiBold" />
+                </StackPanel>
+                <TextBlock Foreground="White" VerticalAlignment="Center" FontSize="13"
+                           Text="Drag to move · drag the bottom-right corner to resize · Esc when done" />
+            </DockPanel>
+        </Grid>
+    </Border>
+</Window>
