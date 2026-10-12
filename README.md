@@ -92,3 +92,13 @@ extension/
   `/state`, and add its URL to `manifest.json`.
 - The overlay stays on top of normal windows, but exclusive-fullscreen games can still cover it.
 - The extension is Chrome/Edge (Manifest V3) only. Firefox would need a small manifest change.
+
+## Landing page
+
+`site/` is a static landing page, deployable to Netlify as-is (`netlify.toml` publishes `site/`, no build).
+Put the usability video at `site/demo.mp4` (optional `site/poster.jpg`), or set `data-youtube` on the
+`#video` element in `site/index.html` to a YouTube video ID.
+
+The demo video is generated: `tools/demo-video/scene.html` is an animated mock of the app, and
+`npm install && npm run render` in that folder renders it to `site/demo.mp4` (needs ffmpeg on PATH;
+set the Chromium path at the top of `render.js`).

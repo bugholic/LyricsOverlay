@@ -1,0 +1,10 @@
+{
+  "name": "lyrics-overlay-demo-video",
+  "private": true,
+  "description": "Renders site/demo.mp4 from scene.html with headless Chromium + ffmpeg",
+  "scripts": {
+    "preview": "node render.js preview 2 14 23 36 47 54",
+    "render": "node render.js video ../../site/demo.mp4"
+  },
+  "dependencies": { "playwright-core": "1.47.2" }
+}
