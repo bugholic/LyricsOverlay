@@ -28,31 +28,28 @@ gets in the way. It becomes interactive only when you choose **Move / resize ove
   song length. That's approximate. Turn on *Prefer LRCLIB's time-synced lyrics* if you want exact
   timing whenever LRCLIB has it.
 
-## Build and run
+## Download and run
 
-Requires the .NET 9 SDK and Windows 10 (2004) or later.
-
-```powershell
-cd app
-dotnet build -c Release
-.\bin\Release\net9.0-windows10.0.19041.0\LyricsOverlay.exe
-```
-
-For a single self-contained exe:
-
-```powershell
-dotnet publish -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
-```
+1. Download **[LyricsOverlay.exe](https://github.com/bugholic/LyricsOverlay/releases/latest/download/LyricsOverlay.exe)**
+   from the [latest release](https://github.com/bugholic/LyricsOverlay/releases/latest).
+2. Double-click it. It's a single file with .NET included, so there's nothing else to install.
+   Needs Windows 10 (2004) or later.
+3. If Windows shows "Windows protected your PC", click **More info → Run anyway**. The exe isn't
+   code-signed yet.
 
 On first launch, the Settings window opens so you can decide about external lyrics. After that the
-app sits in the tray (♪ icon): double-click it for Settings, or right-click it for the menu.
+app sits in the tray (♪ icon): double-click it for Settings, or right-click it for the menu. Turn on
+*Start Lyrics Overlay when I sign in* to have it start with Windows.
 
 ## Install the browser extension (Chrome / Edge)
 
-1. Open `chrome://extensions` (or `edge://extensions`).
-2. Turn on **Developer mode**.
-3. Click **Load unpacked** and pick the `extension` folder.
-4. Reload any open music.youtube.com tab.
+The extension is optional. It adds YouTube Music's own lyrics; without it the app uses LRCLIB.
+
+1. Download and unzip [LyricsOverlay-Extension.zip](https://github.com/bugholic/LyricsOverlay/releases/latest/download/LyricsOverlay-Extension.zip).
+2. Open `chrome://extensions` (or `edge://extensions`).
+3. Turn on **Developer mode**.
+4. Click **Load unpacked** and pick the unzipped folder.
+5. Reload any open music.youtube.com tab.
 
 Settings shows "✔ Browser extension connected" once it's talking to the app.
 
@@ -67,6 +64,27 @@ Settings shows "✔ Browser extension connected" once it's talking to the app.
 | Start with Windows | Settings → **Start Lyrics Overlay when I sign in** |
 
 Settings are saved in `%APPDATA%\LyricsOverlay\settings.json`.
+
+## Building from source
+
+Requires the .NET 9 SDK.
+
+```powershell
+dotnet build app -c Release                    # dev build: app\bin\Release\net9.0-windows10.0.19041.0\
+dotnet publish app -p:PublishProfile=win-x64   # release build: dist\LyricsOverlay.exe (self-contained, single file)
+```
+
+### Releasing a new version
+
+Push a version tag. The exe's version is taken from the tag:
+
+```powershell
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+`.github/workflows/release.yml` builds `LyricsOverlay.exe`, zips the extension, and attaches both to a
+GitHub Release for that tag. The site's Download button always points to the latest release.
 
 ## Project layout
 

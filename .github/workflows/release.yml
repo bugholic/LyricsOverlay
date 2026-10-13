@@ -1,0 +1,37 @@
+# Push a version tag (git tag v0.1.0 && git push origin v0.1.0) to build LyricsOverlay.exe
+# and publish it, with the browser extension zipped, as a GitHub Release.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build single-file exe
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          dotnet publish app -p:PublishProfile=win-x64 -p:Version=$version
+
+      - name: Zip browser extension
+        shell: pwsh
+        run: Compress-Archive -Path extension\* -DestinationPath dist\LyricsOverlay-Extension.zip
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/LyricsOverlay.exe
+            dist/LyricsOverlay-Extension.zip
+          generate_release_notes: true
